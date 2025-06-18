@@ -44,12 +44,12 @@ export default function RootLayout({ children }) {
                   </div>
                   <div className="lg:col-span-9">
                     Main
+                    {children}
                   </div>
                 </div> 
               </div>
             </main>
           </div>
-          {children}
         </ThemeProvider>
       </body>
     </html>
