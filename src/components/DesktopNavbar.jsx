@@ -38,7 +38,7 @@ async function DesktopNavbar() {
           <UserButton />
         </>
       ) : (
-          <SignInButton mode="modal">
+        <SignInButton mode="modal">
           <Button variant="default">Sign In</Button>
         </SignInButton>
       )}
