@@ -8,12 +8,16 @@ import { Avatar, AvatarImage } from "./ui/avatar";
 import { Separator } from "./ui/separator";
 import { LinkIcon, MapPinIcon } from "lucide-react";
 
+// baru sampe bikin sidebar. ini cuman copy dari github. harus benerin importnya. 
+// Hapus semua, ikutin dari UnAuthenticatedSidebar!
+
+
 async function Sidebar() {
   const authUser = await currentUser();
   if (!authUser) return <UnAuthenticatedSidebar />;
 
   const user = await getUserByClerkId(authUser.id);
-  if (!user) return null;
+  if (!user) return null
 
   return (
     <div className="sticky top-20">
@@ -81,7 +85,7 @@ const UnAuthenticatedSidebar = () => (
   <div className="sticky top-20">
     <Card>
       <CardHeader>
-        <CardTitle className="text-center text-xl font-semibold">Welcome Back!</CardTitle>
+        <CardTitle className="text-center text-xl font-semibold">Welcome!</CardTitle>
       </CardHeader>
       <CardContent>
         <p className="text-center text-muted-foreground mb-4">

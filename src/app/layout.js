@@ -3,8 +3,8 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import NavBar from "@/components/NavBar";
-// import { Sidebar } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -45,13 +45,13 @@ export default function RootLayout({ children }) {
                     <Sidebar />
                   </div>
                   <div className="lg:col-span-9">
-                    Main
                     {children}
                   </div>
                 </div> 
               </div>
             </main>
           </div>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
