@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth, currentUser } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
 
  // This file contains server-side actions related to user management.
 
@@ -55,7 +56,7 @@ export async function getUserByClerkId(clerkId) {
 
 export async function getDBUserId() {
   const { userId: clerkId } = await auth();
-  if (!clerkId) throw new Error("Unauthorized");
+  if (!clerkId) return null;
 
   const user = await getUserByClerkId(clerkId);
 
@@ -67,6 +68,8 @@ export async function getDBUserId() {
 export async function getRandomUsers() {
   try {
     const userId = await getDBUserId();
+
+    if (!userId) return [];
 
     // get 3 random users excluding the current user & users that the current user is following
     const randomUsers = await prisma.user.findMany({
@@ -108,9 +111,11 @@ export async function toggleFollow(targetUserId) {
   try {
     const userId = await getDBUserId();
     
+    if (!userId) return;
+
     if (userId === targetUserId) {
       throw new Error("You cannot follow yourself");
-    };
+    }
 
     const existingFollow = await prisma.follows.findUnique({
       where: {
@@ -124,11 +129,39 @@ export async function toggleFollow(targetUserId) {
     if (existingFollow) {
       // Unfollow the user
       await prisma.follows.delete({
-        // baru sampai sini 2:20:21
+        where: {
+          followerId_followingId: {
+            followerId: userId,
+            followingId: targetUserId,
+          }
+        }
       });
+    } else {
+      // Follow the user
+      await prisma.$transaction([
+        prisma.follows.create({
+          data: {
+            followerId: userId,
+            followingId: targetUserId,
+          }
+        }),
+
+        prisma.notification.create({
+          data: {
+            type: "FOLLOW",
+            userId: targetUserId,
+            creatorId: userId,
+          }
+        })
+      ])
     }
 
+    revalidatePath("/"); // Revalidate the home page to reflect the changes
+
+    return {success: true};
+
   } catch (error) {
-    
+    console.error("Failed to toggle follow:", error);
+    return { success: false, error: "An error occurred while toggling follow." };
   }
 }
