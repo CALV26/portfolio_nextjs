@@ -1,11 +1,14 @@
 "use client";
 
-import { createComment, toggleLike } from "@/actions/post.action";
+import { createComment, deletePost, toggleLike } from "@/actions/post.action";
 import { useUser } from "@clerk/nextjs";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Card, CardContent } from "./ui/card";
 import { formatDistanceToNow } from "date-fns";
+import Link from "next/link";
+import { Avatar, AvatarImage } from "./ui/avatar";
+import { DeleteAlertDialog } from "./DeleteAlertDialog";
 
 // type Posts = Awaited<ReturnType<typeof getPosts>>
 
@@ -58,7 +61,7 @@ function PostCard({ post, dbUserId }) {
             if (result.success) toast.success("Post deleted successfully");
             else throw new Error(result.error);
         } catch (error) {
-            toast.error("Failed to delete post");
+            toast.error("Failed to delete post; " + error.message);
         } finally {
             setIsDeleting(false);
         }
@@ -74,34 +77,35 @@ function PostCard({ post, dbUserId }) {
                                 <AvatarImage src={post.author.image ?? "/avatar.png"} />
                             </Avatar>
                         </Link>
+
+                        {/* POST HEADER & TEXT CONTENT */}
+                        <div className="flex-1 min-w-0">
+                            <div className="flex items-start justify-between">
+                                <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2 truncate">
+                                    <Link
+                                        href={`/profile/${post.author.username}`}
+                                        className="font-semibold truncate"
+                                    >
+                                        {post.author.name}
+                                    </Link>
+                                    <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                                        <Link href={`/profile/${post.author.username}`}>@{post.author.username}</Link>
+                                        <span>•</span>
+                                        <span>{formatDistanceToNow(new Date(post.createdAt))} ago</span>
+                                    </div>
+                                </div>
+                                {/* Check if current user is the post author */}
+                                {dbUserId === post.author.id && (
+                                    <DeleteAlertDialog isDeleting={isDeleting} onDelete={handleDeletePost} />
+                                )}
+                            </div>
+                            <p className="mt-2 text-sm text-foreground break-words">{post.content}</p>
+                        </div>
                     </div>
                 </div>
             </CardContent>
         </Card>
 
-        {/* POST HEADER & TEXT CONTENT */}
-        <div className="flex-1 min-w-0">
-            <div className="flex items-start justify-between">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2 truncate">
-                <Link
-                href={`/profile/${post.author.username}`}
-                className="font-semibold truncate"
-                >
-                {post.author.name}
-                </Link>
-                <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                <Link href={`/profile/${post.author.username}`}>@{post.author.username}</Link>
-                <span>•</span>
-                <span>{formatDistanceToNow(new Date(post.createdAt))} ago</span>
-                </div>
-            </div>
-            {/* Check if current user is the post author */}
-            {dbUserId === post.author.id && (
-                <DeleteAlertDialog isDeleting={isDeleting} onDelete={handleDeletePost} />
-            )}
-            </div>
-            <p className="mt-2 text-sm text-foreground break-words">{post.content}</p>
-        </div>
 
         // baru sampe sini 2:53:36
 

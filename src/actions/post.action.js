@@ -35,6 +35,7 @@ export async function getPosts() {
             include: {
                 author: {
                     select: {
+                        id: true,
                         name: true,
                         image: true,
                         username: true
@@ -209,6 +210,6 @@ export async function deletePost(postId) {
     return { success: true };
   } catch (error) {
     console.error("Failed to delete post:", error);
-    return { success: false, error: "Failed to delete post" };
+    return { success: false, error: "Failed to delete post: " + error.message };
   }
 }
