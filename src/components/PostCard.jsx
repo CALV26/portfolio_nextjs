@@ -207,10 +207,10 @@ function PostCard({ post, dbUserId }) {
                                                 {isCommenting ? (
                                                     "Posting..."
                                                 ) : (
-                                                <>
-                                                    <SendIcon className="size-4" />
-                                                    Comment
-                                                </>
+                                                    <>
+                                                        <SendIcon className="size-4" />
+                                                        Comment
+                                                    </>
                                                 )}
                                             </Button>
                                         </div>
