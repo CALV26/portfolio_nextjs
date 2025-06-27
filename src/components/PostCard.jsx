@@ -83,7 +83,7 @@ function PostCard({ post, dbUserId }) {
                         </Link>
 
                         {/* POST HEADER & TEXT CONTENT */}
-                        <div className="flex-1 min-w-0">
+                        <div className="flex-1 min-w-0 md:mt-1">
                             <div className="flex items-start justify-between">
                                 <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2 truncate">
                                     <Link
@@ -103,7 +103,7 @@ function PostCard({ post, dbUserId }) {
                                     <DeleteAlertDialog isDeleting={isDeleting} onDelete={handleDeletePost} />
                                 )}
                             </div>
-                            <p className="mt-2 text-sm text-foreground break-words">{post.content}</p>
+                            <p className="mt-1 text-sm text-foreground break-words">{post.content}</p>
                         </div>
                     </div>
 

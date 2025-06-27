@@ -68,57 +68,39 @@ function ProfilePageClient({ user, posts, likedPosts, isFollowing:initialIsFollo
     return (
         <div className="max-w-3xl mx-auto">
             <div className="grid grid-cols-1 gap-6">
-                <div className="w-full max-w-lg mx-auto">
+                <div className="w-full mx-auto">
                     <Card className="bg-card">
                         <CardContent className="pt-6">
-                            <div className="flex flex-col items-center text-center">
-                                <Avatar className="w-24 h-24">
-                                    <AvatarImage src={user.image ?? "/avatar.png"} />
-                                </Avatar>
-                                <h1 className="mt-4 text-2xl font-bold">{user.name ?? user.username}</h1>
-                                <p className="text-muted-foreground">@{user.username}</p>
-                                <p className="mt-2 text-sm">{user.bio}</p>
+                            <div className="flex flex-col">
+                                <div className="inline-flex w-full justify-between">
+                                    <Avatar className="flex-none w-20 h-20">
+                                        <AvatarImage src={user.image ?? "/avatar.png"} />
+                                    </Avatar>
 
-                                {/* PROFILE STATS */}
-                                <div className="w-full mt-6">
-                                    <div className="flex justify-between mb-4">
-                                        <div>
-                                            <div className="font-semibold">{user._count.following.toLocaleString()}</div>
-                                            <div className="text-sm text-muted-foreground">Following</div>
-                                        </div>
-                                        <Separator orientation="vertical" />
-                                        <div>
-                                            <div className="font-semibold">{user._count.followers.toLocaleString()}</div>
-                                            <div className="text-sm text-muted-foreground">Followers</div>
-                                        </div>
-                                        <Separator orientation="vertical" />
-                                        <div>
-                                            <div className="font-semibold">{user._count.posts.toLocaleString()}</div>
-                                            <div className="text-sm text-muted-foreground">Posts</div>
+                                    {/* PROFILE STATS */}
+                                    <div className="flex-auto items-center justify-center">
+                                        <div className="flex h-full items-center">
+                                            <div className="flex-1 text-center">
+                                                <div className="font-semibold">{user._count.posts.toLocaleString()}</div>
+                                                <div className="text-sm text-muted-foreground">Posts</div>
+                                            </div>
+                                            <Separator orientation="vertical" />
+                                            <div className="flex-1 text-center">
+                                                <div className="font-semibold">{user._count.following.toLocaleString()}</div>
+                                                <div className="text-sm text-muted-foreground">Following</div>
+                                            </div>
+                                            <Separator orientation="vertical" />
+                                            <div className="flex-1 text-center">
+                                                <div className="font-semibold">{user._count.followers.toLocaleString()}</div>
+                                                <div className="text-sm text-muted-foreground">Followers</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                {/* "FOLLOW & EDIT PROFILE" BUTTONS */}
-                                {!currentUser ? (
-                                    <SignInButton mode="modal">
-                                        <Button className="w-full mt-4">Follow</Button>
-                                    </SignInButton>
-                                ) : isOwnProfile ? (
-                                    <Button className="w-full mt-4" onClick={() => setShowEditDialog(true)}>
-                                        <EditIcon className="size-4 mr-2" />
-                                        Edit Profile
-                                    </Button>
-                                ) : (
-                                    <Button
-                                        className="w-full mt-4"
-                                        onClick={handleFollow}
-                                        disabled={isUpdatingFollow}
-                                        variant={isFollowing ? "outline" : "default"}
-                                    >
-                                        {isFollowing ? "Unfollow" : "Follow"}
-                                    </Button>
-                                )}
+                                <h1 className="mt-4 text-2xl font-semibold">{user.name ?? user.username}</h1>
+                                <p className="text-muted-foreground">@{user.username}</p>
+                                <p className="mt-2 text-sm">{user.bio}</p>
 
                                 {/* LOCATION & WEBSITE */}
                                 <div className="w-full mt-6 space-y-2 text-sm">
@@ -148,6 +130,28 @@ function ProfilePageClient({ user, posts, likedPosts, isFollowing:initialIsFollo
                                         Joined {formattedDate}
                                     </div>
                                 </div>
+
+                                {/* "FOLLOW & EDIT PROFILE" BUTTONS */}
+                                {!currentUser ? (
+                                    <SignInButton mode="modal">
+                                        <Button className="w-full mt-4">Follow</Button>
+                                    </SignInButton>
+                                ) : isOwnProfile ? (
+                                    <Button className="w-full mt-4" onClick={() => setShowEditDialog(true)}>
+                                        <EditIcon className="size-4 mr-2" />
+                                        Edit Profile
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        className="w-full mt-4"
+                                        onClick={handleFollow}
+                                        disabled={isUpdatingFollow}
+                                        variant={isFollowing ? "outline" : "default"}
+                                    >
+                                        {isFollowing ? "Unfollow" : "Follow"}
+                                    </Button>
+                                )}
+
                             </div>
                         </CardContent>
                     </Card>

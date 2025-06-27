@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { useUser } from "@clerk/nextjs";
 import { useState } from "react";
 import { Button } from "./ui/button";
+import ImageUpload from "./ImageUpload";
 
 function CreatePost() {
   const { user } = useUser();
