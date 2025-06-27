@@ -1,4 +1,4 @@
-import { getRandomUsers } from "@/actions/user.action"
+import { getAllUsers } from "@/actions/user.action"
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import Link from "next/link";
@@ -6,14 +6,14 @@ import FollowButton from "./FollowButton";
 
 async function Suggestion() {
     
-    const users = await getRandomUsers();
+    const users = await getAllUsers();
 
     if (users.length === 0) return null;
     
     return (
         <Card>
             <CardHeader>
-                <CardTitle> Who to Follow </CardTitle>
+                <CardTitle> Members </CardTitle>
             </CardHeader>
             <CardContent>
                 <div className="space-y-4">
@@ -33,7 +33,7 @@ async function Suggestion() {
                         <p className="text-muted-foreground">{user._count.followers} followers</p>
                         </div>
                     </div>
-                    <FollowButton userId={user.id} />
+                    <FollowButton userId={user.id} initialIsFollowing={user.isFollowing} />
                     </div>
                 ))}
                 </div>

@@ -107,6 +107,45 @@ export async function getRandomUsers() {
   }
 }
 
+export async function getAllUsers() {
+  try {
+    const userId = await getDBUserId();
+    if (!userId) return [];
+
+    const users = await prisma.user.findMany({
+      where: {
+          NOT: { id: userId } // Exclude current user
+      },
+      select: {
+        id: true,
+        name: true,
+        username: true,
+        image: true,
+        _count: { 
+          select: {
+            followers: true
+          }
+        },
+        followers: {
+          where: {
+            followerId: userId, // Only include if current user follows this user
+          },
+          select: { followerId: true },
+        },
+      },
+      orderBy: { createdAt: "desc" }
+    });
+  return users.map(user => ({
+      ...user,
+      isFollowing: user.followers.length > 0,
+    }));
+
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
 export async function toggleFollow(targetUserId) {
   try {
     const userId = await getDBUserId();

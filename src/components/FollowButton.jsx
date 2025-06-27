@@ -7,16 +7,18 @@ import { toggleFollow } from "@/actions/user.action";
 import toast from "react-hot-toast";
 
 
-function FollowButton({ userId }) {
+function FollowButton({ userId, initialIsFollowing }) {
     const [isLoading, setIsLoading] = useState(false);
+    const [isFollowing, setIsFollowing] = useState(initialIsFollowing);
 
     const handleFollow = async () => {
         setIsLoading(true);
         try {
             await toggleFollow(userId);
-            toast.success("Followed successfully");            
+            setIsFollowing((prev) => !prev);
+            toast.success(isFollowing ? "Unfollowed successfully" : "Followed successfully");
         } catch (error) {
-            toast.error("Failed to follow user");            
+            toast.error("Failed to update follow status");            
         } finally {
             setIsLoading(false);
         }
@@ -25,12 +27,14 @@ function FollowButton({ userId }) {
   return (
     <Button
     size={"sm"}
-    variant={"secondary"}
+    variant={isFollowing ? "outline" : "secondary"}
     onClick={handleFollow}
     disabled={isLoading}
     className="w-20"
     >
-        {isLoading ? <Loader2Icon className="size-4 animate-spin" /> : "Follow"}
+        {isLoading ? (
+            <Loader2Icon className="size-4 animate-spin" />
+        ) : isFollowing ? "Unfollow" : "Follow"}
     </Button>
   )
 }

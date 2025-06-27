@@ -72,7 +72,7 @@ function ProfilePageClient({ user, posts, likedPosts, isFollowing:initialIsFollo
                     <Card className="bg-card">
                         <CardContent className="pt-6">
                             <div className="flex flex-col">
-                                <div className="inline-flex w-full justify-between">
+                                <div className="inline-flex w-full md:gap-40 justify-between">
                                     <Avatar className="flex-none w-20 h-20">
                                         <AvatarImage src={user.image ?? "/avatar.png"} />
                                     </Avatar>
@@ -84,12 +84,12 @@ function ProfilePageClient({ user, posts, likedPosts, isFollowing:initialIsFollo
                                                 <div className="font-semibold">{user._count.posts.toLocaleString()}</div>
                                                 <div className="text-sm text-muted-foreground">Posts</div>
                                             </div>
-                                            <Separator orientation="vertical" className="hidden md:block" />
+                                            {/* <Separator orientation="vertical" className="hidden md:block" /> */}
                                             <div className="flex-1 text-center">
                                                 <div className="font-semibold">{user._count.following.toLocaleString()}</div>
                                                 <div className="text-sm text-muted-foreground">Following</div>
                                             </div>
-                                            <Separator orientation="vertical" className="hidden md:block" />
+                                            {/* <Separator orientation="vertical" className="hidden md:block" /> */}
                                             <div className="flex-1 text-center">
                                                 <div className="font-semibold">{user._count.followers.toLocaleString()}</div>
                                                 <div className="text-sm text-muted-foreground">Followers</div>
