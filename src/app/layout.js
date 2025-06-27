@@ -18,8 +18,11 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  title: "Sosialin",
+  title: "$#!t",
   description: "Typeshit Social Media App",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({ children }) {
