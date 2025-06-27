@@ -84,12 +84,12 @@ function ProfilePageClient({ user, posts, likedPosts, isFollowing:initialIsFollo
                                                 <div className="font-semibold">{user._count.posts.toLocaleString()}</div>
                                                 <div className="text-sm text-muted-foreground">Posts</div>
                                             </div>
-                                            <Separator orientation="vertical" />
+                                            <Separator orientation="vertical" className="hidden md:block" />
                                             <div className="flex-1 text-center">
                                                 <div className="font-semibold">{user._count.following.toLocaleString()}</div>
                                                 <div className="text-sm text-muted-foreground">Following</div>
                                             </div>
-                                            <Separator orientation="vertical" />
+                                            <Separator orientation="vertical" className="hidden md:block" />
                                             <div className="flex-1 text-center">
                                                 <div className="font-semibold">{user._count.followers.toLocaleString()}</div>
                                                 <div className="text-sm text-muted-foreground">Followers</div>
