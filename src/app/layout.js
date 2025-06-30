@@ -18,8 +18,8 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  title: "$#!t",
-  description: "Typeshit Social Media App",
+  title: "Sosialin",
+  description: "Social Media App Using NextJs",
   icons: {
     icon: "/favicon.png",
   },
